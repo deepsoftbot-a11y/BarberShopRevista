@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id           String @id @default(cuid())
+  email        String @unique
+  passwordHash String
+}
+
+model Service {
+  id          String    @id @default(cuid())
+  name        String
+  description String?
+  durationMin Int
+  priceCents  Int
+  active      Boolean   @default(true)
+  sortOrder   Int       @default(0)
+  bookings    Booking[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model WeeklySchedule {
+  id       String  @id @default(cuid())
+  weekday  Int     @unique
+  startMin Int
+  endMin   Int
+  isClosed Boolean @default(false)
+}
+
+model ScheduleException {
+  id       String   @id @default(cuid())
+  date     DateTime @db.Date
+  startMin Int?
+  endMin   Int?
+  reason   String?
+
+  @@unique([date, startMin])
+}
+
+model Booking {
+  id            String        @id @default(cuid())
+  code          String        @unique
+  serviceId     String
+  service       Service       @relation(fields: [serviceId], references: [id])
+  startAt       DateTime
+  endAt         DateTime
+  customerName  String
+  customerEmail String
+  customerPhone String?
+  status        BookingStatus @default(CONFIRMED)
+  createdAt     DateTime      @default(now())
+
+  @@index([startAt])
+}
+
+enum BookingStatus {
+  CONFIRMED
+  CANCELLED
+}

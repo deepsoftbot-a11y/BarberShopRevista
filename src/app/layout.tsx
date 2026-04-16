@@ -1,13 +1,40 @@
 import type { Metadata } from "next";
+import { Anton, Inter, Instrument_Serif, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const anton = Anton({
+  weight: ["400"],
+  subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap",
+});
+
+const inter = Inter({
+  weight: ["400", "500", "600", "700"],
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
+
+const instrumentSerif = Instrument_Serif({
+  weight: ["400"],
+  style: ["normal", "italic"],
+  subsets: ["latin"],
+  variable: "--font-serif",
+  display: "swap",
+});
+
+const mono = JetBrains_Mono({
+  weight: ["400", "500"],
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
-  title: "Barbería",
-  description: "Reserva tu cita en línea",
+  title: "Barbería — Corte, barba y oficio",
+  description: "Reserva tu cita en línea. Estilo editorial, oficio clásico.",
 };
 
 export default function RootLayout({
@@ -16,8 +43,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={cn("font-sans", geist.variable)}>
-      <body>{children}</body>
+    <html
+      lang="es"
+      className={cn(
+        "dark",
+        anton.variable,
+        inter.variable,
+        instrumentSerif.variable,
+        mono.variable,
+      )}
+    >
+      <body className="font-sans">{children}</body>
     </html>
   );
 }
