@@ -34,6 +34,9 @@ yarn-error.log*
 # production secrets
 .env.production
 
+# local docker override
+docker-compose.override.yml
+
 # vercel
 .vercel
 
