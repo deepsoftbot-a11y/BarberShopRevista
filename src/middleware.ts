@@ -14,14 +14,18 @@ export async function middleware(request: NextRequest) {
   const token = request.cookies.get("admin_session")?.value;
 
   if (!token) {
-    return NextResponse.redirect(new URL("/admin/login", request.url));
+    const loginUrl = request.nextUrl.clone();
+    loginUrl.pathname = "/admin/login";
+    return NextResponse.redirect(loginUrl);
   }
 
   try {
     await jwtVerify(token, JWT_SECRET);
     return NextResponse.next();
   } catch {
-    return NextResponse.redirect(new URL("/admin/login", request.url));
+    const loginUrl = request.nextUrl.clone();
+    loginUrl.pathname = "/admin/login";
+    return NextResponse.redirect(loginUrl);
   }
 }
 
