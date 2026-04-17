@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  basePath: "/barbershop",
+  output: "standalone",
   images: {
     remotePatterns: [
       {
