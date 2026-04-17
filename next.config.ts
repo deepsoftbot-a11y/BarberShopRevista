@@ -3,6 +3,11 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   basePath: "/barbershop",
   output: "standalone",
+  experimental: {
+    serverActions: {
+      allowedOrigins: process.env.ALLOWED_ORIGINS?.split(",") ?? [],
+    },
+  },
   images: {
     remotePatterns: [
       {
